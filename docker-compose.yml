@@ -1,0 +1,59 @@
+services:
+  ############################
+  # PHP + Apache
+  ############################
+  app:
+    image: hoovhai/php:8.4
+    container_name: ${APP_NAME}-app
+    volumes:
+      - ./:/var/www/html
+      - vendor:/var/www/html/vendor
+    ports:
+      - ${HTTP_PORT:-80}:80
+
+  ############################
+  # MYSQL database
+  ############################
+  mysql:
+    image: ethantech/mysql:8.0
+    container_name: ${APP_NAME}-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql:/var/lib/mysql
+
+  ############################
+  # PHPMyadmin service
+  ############################
+  pma:
+    container_name: ${APP_NAME}-pma
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
+    ports:
+      - ${PHPMYADMIN_PORT:-8080}:80
+
+  ############################
+  # MailDev service
+  ############################
+  # maildev:
+  #   container_name: ${APP_NAME}-maildev
+  #   restart: unless-stopped
+  #   # image: maildev/maildev
+  #   image: ethantech/maildev
+  #   ports:
+  #     - "${MAILDEV_HTTP_PORT:-8081}:1080"
+  #   environment:
+  #     MAILDEV_MAIL_DIRECTORY: /tmp/data
+
+volumes:
+  vendor:
+  mysql:
