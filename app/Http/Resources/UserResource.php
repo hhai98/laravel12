@@ -19,10 +19,8 @@ class UserResource extends BaseResource
             'role_id' => $this->role_id,
             
             // Include relationships conditionally
-            ...$this->includeRole(),
-            ...$this->when($this->relationLoaded('shop'), [
-                'shop' => new ShopResource($this->whenLoaded('shop'))
-            ]),
+            ...$this->includeFiles(),
+            // 'shop' => new ShopResource($this->loadMissing('shop'))
         ]);
     }
 }
