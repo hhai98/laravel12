@@ -1,0 +1,59 @@
+Table users [headercolor: #175e7a] {
+	id integer [ pk, increment, not null, unique ]
+	phone varchar(255) [ pk, not null, unique ]
+	sns_id varchar(255)
+	sns_driver varchar(255)
+	name varchar(255)
+	role_id integer [ not null ]
+}
+
+Table roles [headercolor: #175e7a] {
+	id integer [ pk, increment, not null, unique ]
+	code varchar(255) [ not null ]
+	name varchar(255)
+}
+
+Table shop [headercolor: #175e7a] {
+	id integer [ pk, increment, not null, unique ]
+	user_id bigint [ pk ]
+	name varchar(255)
+	address varchar(255)
+	phone varchar(255)
+	geo geometry
+	description text(65535)
+}
+
+Table files [headercolor: #175e7a] {
+	id integer [ pk, increment, not null, unique ]
+	url varchar(255)
+	thumb varchar(255)
+	type varchar(255) [ default: 'image' ]
+	fileable_id bigint
+	fileable_type varchar(255)
+}
+
+Table news [headercolor: #175e7a] {
+	id integer [ pk, increment, not null, unique ]
+	title varchar(255)
+	description text(65535)
+	content longtext(65535)
+	created_by bigint [ pk, not null ]
+}
+
+Table jobs [headercolor: #175e7a] {
+	id integer [ pk, increment, not null, unique ]
+	title varchar(255)
+	description text(65535)
+	content longtext(65535)
+	created_by bigint [ pk, not null ]
+}
+
+Table reviews [headercolor: #175e7a] {
+	id integer [ pk, increment, not null, unique ]
+	created_by bigint [ pk ]
+	author_name varchar(255)
+	rate double
+	content longtext(65535)
+	is_show boolean [ not null ]
+}
+
