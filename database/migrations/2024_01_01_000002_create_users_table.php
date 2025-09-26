@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password')->nullable(); // Nullable for SNS users
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->rememberToken();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }
