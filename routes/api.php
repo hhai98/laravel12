@@ -33,16 +33,16 @@ Route::prefix('v1')->group(function () {
         Route::delete('sessions', [LoginController::class, 'revokeSession']);
         
         // Roles
-        Route::apiResource('roles', RoleController::class);
-        
+        Route::apiResource('roles', RoleController::class)->middleware('role:admin');
+
         // Users
-        Route::apiResource('users', UserController::class);
-        Route::post('users/{id}/restore', [UserController::class, 'restore']);
-        Route::delete('users/{id}/force-delete', [UserController::class, 'forceDelete']);
+        Route::apiResource('users', UserController::class)->middleware('role:admin');
+        Route::post('users/{id}/restore', [UserController::class, 'restore'])->middleware('role:admin');
+        Route::delete('users/{id}/force-delete', [UserController::class, 'forceDelete'])->middleware('role:admin');
         
         // Shops
         Route::apiResource('shops', ShopController::class);
-        Route::post('shops/{id}/restore', [ShopController::class, 'restore']);
-        Route::delete('shops/{id}/force-delete', [ShopController::class, 'forceDelete']);
+        Route::post('shops/{id}/restore', [ShopController::class, 'restore'])->middleware('role:admin');
+        Route::delete('shops/{id}/force-delete', [ShopController::class, 'forceDelete'])->middleware('role:admin');
     });
 });
